@@ -30,9 +30,9 @@
     //    Hint: there is a string literal that represents empty
     //
     
-    [self.agentNameTextField setText:nil];
-    self.greetingLabel.text = nil;
-    self.missionBriefingTextView.text = nil;
+    [self.agentNameTextField setText:@""];
+    self.greetingLabel.text = @"";
+    self.missionBriefingTextView.text = @"";
 }
 
 - (void)didReceiveMemoryWarning
@@ -52,7 +52,7 @@
     //
     // 2. Check whether there is text in BOTH the name and password textfields
     //
-    if (_agentNameTextField != nil && _agentPasswordTextField != nil)
+    if (![self.agentNameTextField.text isEqualToString:@""] && ![self.agentPasswordTextField.text isEqualToString:@""])
     {
         //
         // 3. The greetingLabel needs to be populated with the the string "Good evening, Agent #", where # is the last name of
@@ -63,9 +63,15 @@
         //
         
         NSString *agentName = self.agentNameTextField.text;
-        // Additional step(s) to remove only the last name
+
         NSString *agentGreeting = @"Good Evening, Agent ";
-        NSString *lastName = [agentName componentsSeparatedByString:@" "][1];
+
+        // Create array with components of entered name
+        NSArray *nameComponents = [agentName componentsSeparatedByString:@" "];
+        
+        // Extract last name, last item in array
+        NSString *lastName = nameComponents[nameComponents.count - 1];
+        
         agentGreeting = [agentGreeting stringByAppendingString:lastName];
         self.greetingLabel.text = agentGreeting;
         
@@ -106,9 +112,14 @@
         //
         //    Once you have the color object, you should be able to set the view's background color to this object.
         //
-        UIColor *accessDeniedBackgroundColor = [UIColor colorWithRed:(0.78) green:(0.188) blue:(0.188) alpha:(1)];;
+        UIColor *accessDeniedBackgroundColor = [UIColor colorWithRed:(0.78) green:(0.188) blue:(0.188) alpha:(1)];
         // Additional step to set the above color object to self.view's background color
         self.view.backgroundColor = accessDeniedBackgroundColor;
+        
+        // Also clear text field, greetingLabel and missionBriefing text if denied
+        [self.agentNameTextField setText:@""];
+        self.greetingLabel.text = @"";
+        self.missionBriefingTextView.text = @"";
     }
 }
 
